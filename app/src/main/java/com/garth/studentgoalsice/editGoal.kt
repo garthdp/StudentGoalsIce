@@ -26,9 +26,12 @@ class editGoal : AppCompatActivity() {
         val txtEditTitle : TextView = findViewById(R.id.txtEditTitle)
         val txtEditDescription : TextView = findViewById(R.id.txtEditDescription)
         val btnEditGoal : Button = findViewById(R.id.btnEditGoal)
+        val btnDeleteGoal : Button = findViewById(R.id.btnDeleteGoal)
 
+        //checks box if goal is complete
         cbCompleted.isChecked = currentGoal.completed
 
+        //updates goal
         btnEditGoal.setOnClickListener{
             if (txtEditTitle.text.isNotEmpty()){
                 currentGoal.title = txtEditTitle.text.toString()
@@ -40,7 +43,20 @@ class editGoal : AppCompatActivity() {
                 currentGoal.completed = true
             }
             val db = DBHelper(this, null)
+            //updates goal
             val goalUpdated = db.updateGoal(currentGoal)
+            db.close()
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        //deletes goal
+        btnDeleteGoal.setOnClickListener{
+            val db = DBHelper(this, null)
+            //deletes goal
+            val goalDeletion = db.deleteGoal(currentGoal)
+            db.close()
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

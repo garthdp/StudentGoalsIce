@@ -38,19 +38,23 @@ class settings : AppCompatActivity() {
         val nightMode = sharedPreferences.getBoolean("night", false)
         val notification = sharedPreferences.getBoolean("notification", false)
 
+        //sets switch on and off
         if (notification){
             swNotification.isChecked = true
         }
 
+        //sets switch on and off
         if(nightMode){
             swTheme.isChecked = true
         }
 
+        //takes back to homepage
         btnBackSettings.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
+        // sets to dark or light mode and saves setting to sharedpreference
         swTheme.setOnCheckedChangeListener{ buttonView, isChecked ->
             editor.putBoolean("night", isChecked)
             editor.apply()
@@ -62,6 +66,7 @@ class settings : AppCompatActivity() {
             }
         }
 
+        //saves notification setting to sharedpreference
         swNotification.setOnCheckedChangeListener{ buttonView, isChecked ->
             if(!isChecked){
                 editor.putBoolean("notification", false)

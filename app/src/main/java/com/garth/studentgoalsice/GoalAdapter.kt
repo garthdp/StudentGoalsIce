@@ -26,6 +26,7 @@ class GoalAdapter : ListAdapter<Goal, GoalAdapter.CategoryAdapter>(CategoryViewH
         ))
     }
 
+    //binds goal information to recycle view
     @SuppressLint("CutPasteId")
     override fun onBindViewHolder(holder: CategoryAdapter, position: Int)
     {

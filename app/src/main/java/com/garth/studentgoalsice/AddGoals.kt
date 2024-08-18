@@ -34,6 +34,7 @@ class AddGoals : AppCompatActivity() {
         txtTitle = findViewById(R.id.txtDisplayTitle)
         txtDescription = findViewById(R.id.txtDisplayDescription)
 
+        //adds goal to db
         btnAddGoals.setOnClickListener {
             val goal = Goal(0, txtTitle.text.toString(), txtDescription.text.toString(), false)
             val db = DBHelper(this, null)
@@ -43,10 +44,12 @@ class AddGoals : AppCompatActivity() {
 
             // Toast to message on the screen
             Toast.makeText(this, "$title added to database", Toast.LENGTH_LONG).show()
+            db.close()
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        //takes back to homescreen
         addGoalBack.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

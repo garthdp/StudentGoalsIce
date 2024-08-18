@@ -67,6 +67,16 @@
             android:textSize="20sp"
             android:layout_marginTop="220dp"
             android:text="Completed" />
+
+        <Button
+            android:id="@+id/btnDeleteGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="320dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginEnd="150dp"
+            android:textSize="20sp"
+            android:text="Delete" />
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

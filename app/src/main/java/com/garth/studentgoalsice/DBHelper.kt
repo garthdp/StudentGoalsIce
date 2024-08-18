@@ -69,6 +69,7 @@ class DBHelper(context: Context, factory : SQLiteDatabase.CursorFactory?) :
         return db.rawQuery("SELECT * FROM " + TABLE_NAME, null)
     }
 
+    //updates goal
     fun updateGoal(goal: Goal): Int {
         val db = this.readableDatabase
         val contentValues = ContentValues().apply {
@@ -81,6 +82,18 @@ class DBHelper(context: Context, factory : SQLiteDatabase.CursorFactory?) :
         return db.update(
             TABLE_NAME,
             contentValues,
+            "$ID_COL = ?",
+            arrayOf(goal.id.toString())
+        )
+    }
+
+    //deletes goal
+    fun deleteGoal(goal: Goal): Int {
+        val db = this.readableDatabase
+
+        // updating row based on the ID
+        return db.delete(
+            TABLE_NAME,
             "$ID_COL = ?",
             arrayOf(goal.id.toString())
         )

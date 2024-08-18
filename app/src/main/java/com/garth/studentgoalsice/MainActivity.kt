@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         var id : Int
         var title : String
         var description : String
-        var completed : Boolean
+        var completed : Int
         val btnSettings : FloatingActionButton = findViewById(R.id.btnSettings)
         val goalAdapter = GoalAdapter()
 
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             adapter=goalAdapter
         }
 
+        //loads list of goals from database
         Handler(Looper.getMainLooper()).post{
             val db = DBHelper(this, null)
 
@@ -62,45 +63,47 @@ class MainActivity : AppCompatActivity() {
             // moving the cursor to first position and
             // appending value in the text view
             cursor!!.moveToFirst()
-            if (goals.isEmpty()){
-                id = cursor.getString(cursor.getColumnIndex(DBHelper.ID_COL)).toInt()
-                title = cursor.getString(cursor.getColumnIndex(DBHelper.TITLE_COL))
-                description = cursor.getString(cursor.getColumnIndex(DBHelper.DESCRIPTION_COL))
-                completed = cursor.getString(cursor.getColumnIndex(DBHelper.COMPLETED_COL)).toBoolean()
-                Log.d("Goal Info", title + description + completed)
-                var goal = Goal(id, title, description, completed)
-                goals.add(goal)
+            //clears goal list
+            goals.clear()
 
-                // moving our cursor to next
-                // position and appending values
-                while(cursor.moveToNext()){
-                    id = cursor.getString(cursor.getColumnIndex(DBHelper.ID_COL)).toInt()
-                    title = cursor.getString(cursor.getColumnIndex(DBHelper.TITLE_COL))
-                    description = cursor.getString(cursor.getColumnIndex(DBHelper.DESCRIPTION_COL))
-                    completed = cursor.getString(cursor.getColumnIndex(DBHelper.COMPLETED_COL)).toBoolean()
-                    Log.d("Goal Info", title + description + completed)
-                    goal = Goal(id, title, description, completed)
+            //gets values from db
+            if (cursor.count > 0) {
+                // do while loop which saves values from db to goals list
+                do {
+                    val id = cursor.getString(cursor.getColumnIndex(DBHelper.ID_COL)).toInt()
+                    val title = cursor.getString(cursor.getColumnIndex(DBHelper.TITLE_COL))
+                    val description = cursor.getString(cursor.getColumnIndex(DBHelper.DESCRIPTION_COL))
+                    val completed = cursor.getString(cursor.getColumnIndex(DBHelper.COMPLETED_COL)).toInt()
+
+                    val goal = if (completed == 0) {
+                        Goal(id, title, description, false)
+                    } else {
+                        Goal(id, title, description, true)
+                    }
+
                     goals.add(goal)
-                }
-                Log.d("Goals", goals.toString())
-            }
 
-            // at last we close our cursor
+                } while (cursor.moveToNext())
+            }
             cursor.close()
 
+            //add goals from goals list to recycle view
             goalAdapter.submitList(goals)
         }
 
+        //takes user to settings activity
         btnSettings.setOnClickListener{
             val intent = Intent(this, settings::class.java)
             startActivity(intent)
         }
 
+        //takes user to addgoal activity
         btnAdd.setOnClickListener{
             val intent = Intent(this, AddGoals::class.java)
             startActivity(intent)
         }
 
+        //makes recycle view clickable
         goalAdapter.setOnClickListener(object : GoalAdapter.OnClickListener{
             override fun onClick(position: Int, model: Goal) {
                 currentGoal = model
@@ -109,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    // applies chosen theme on start
     override fun onResume(){
         super.onResume()
         sharedPreferences = getSharedPreferences("Theme", MODE_PRIVATE)
