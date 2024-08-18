@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 lateinit var editor: Editor
-lateinit var sharedPreferences: SharedPreferences
+public lateinit var sharedPreferences: SharedPreferences
 
 class settings : AppCompatActivity() {
     @SuppressLint("UseSwitchCompatOrMaterialCode", "MissingInflatedId", "CommitPrefEdits")

@@ -39,6 +39,9 @@ class editGoal : AppCompatActivity() {
             if (cbCompleted.isChecked){
                 currentGoal.completed = true
             }
+            val db = DBHelper(this, null)
+            val goalUpdated = db.updateGoal(currentGoal)
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

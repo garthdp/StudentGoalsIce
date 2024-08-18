@@ -77,7 +77,6 @@
         android:layout_marginStart="20dp"
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#abdbe3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="?attr/homeAsUpIndicator" />
 

@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class AddGoals : AppCompatActivity() {
@@ -27,13 +29,25 @@ class AddGoals : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnAddGoals: Button = findViewById<Button>(R.id.btnCreateGoal)
+        val btnAddGoals: Button = findViewById(R.id.btnCreateGoal)
+        val addGoalBack: FloatingActionButton = findViewById(R.id.addGoalBack)
         txtTitle = findViewById(R.id.txtDisplayTitle)
         txtDescription = findViewById(R.id.txtDisplayDescription)
 
         btnAddGoals.setOnClickListener {
-            val goal = Goal(txtTitle.text.toString(), txtDescription.text.toString(), false)
-            goals.add(goal)
+            val goal = Goal(0, txtTitle.text.toString(), txtDescription.text.toString(), false)
+            val db = DBHelper(this, null)
+            // calling method to add
+            // name and age to our database
+            db.addGoal(goal.title, goal.description, goal.completed)
+
+            // Toast to message on the screen
+            Toast.makeText(this, "$title added to database", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        addGoalBack.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
