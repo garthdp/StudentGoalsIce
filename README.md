@@ -1,4 +1,4 @@
-# Student Goals Appp
+# Student Goals App
 
 This is a simple app in which students will be able to view their goals, add more goals, update their goals and delete goals.
 
